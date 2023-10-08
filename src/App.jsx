@@ -8,7 +8,35 @@ import ray from "./assets/ray.svg";
 import tool from "./assets/tool.svg";
 import present from "./assets/present.svg";
 function App() {
+  const [email, setEmail] = useState("");
+  const [sentEmail, setSentEmail] = useState([]);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    
+    try {
+      const response = await fetch("http://localhost:3001/api/emails", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+      
+      if (response.ok) {
+        alert("E-mail cadastrado com sucesso!");
+        setSentEmail([...sentEmail, email])
+        setEmail("");
+      } else {
+        alert("Erro ao cadastrar o e-mail.");
+      }
+    } catch (error) {
+      console.error("Erro ao enviar o e-mail:", error);
+    }
+  };
+  
+  console.log(sentEmail, 'emails cadastrados')
   return (
     <>
       <div className="wrapper-page">
@@ -19,10 +47,12 @@ function App() {
           oásis de produtividade!
         </p>
         <div>
-          <form className="container-input-button">
+          <form onSubmit={handleSubmit} className="container-input-button">
             <input
               type="email"
               placeholder="Digite seu e-mail"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <button type="submit">
               quero receber
