@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
 
 import "./App.css";
 import arrow from "./assets/arrow-right.svg";
@@ -10,11 +9,11 @@ import present from "./assets/present.svg";
 function App() {
   const [email, setEmail] = useState("");
   const [sentEmail, setSentEmail] = useState([]);
+  const [emailList, setEmailList] = useState([]); // Novo estado para a lista de e-mails
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    
+
     try {
       const response = await fetch("http://localhost:3001/api/emails", {
         method: "POST",
@@ -23,10 +22,10 @@ function App() {
         },
         body: JSON.stringify({ email }),
       });
-      
+
       if (response.ok) {
         alert("E-mail cadastrado com sucesso!");
-        setSentEmail([...sentEmail, email])
+        setSentEmail([...sentEmail, email]);
         setEmail("");
       } else {
         alert("Erro ao cadastrar o e-mail.");
@@ -35,8 +34,26 @@ function App() {
       console.error("Erro ao enviar o e-mail:", error);
     }
   };
-  
-  console.log(sentEmail, 'emails cadastrados')
+
+  // rota get para exibir os emails cadastrados
+
+  useEffect(() => {
+    async function fetchEmails() {
+      try {
+        const response = await fetch("http://localhost:3001/api/emails");
+        if (response.ok) {
+          const data = await response.json();
+          setEmailList(data); // Atualize o estado com os e-mails recebidos do backend
+        } else {
+          console.error("Erro ao buscar a lista de e-mails");
+        }
+      } catch (error) {
+        console.error("Erro ao buscar a lista de e-mails:", error);
+      }
+    }
+
+    fetchEmails();
+  }, []);
   return (
     <>
       <div className="wrapper-page">
