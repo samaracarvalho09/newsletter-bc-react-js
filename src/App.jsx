@@ -6,6 +6,8 @@ import rocket from "./assets/rocket.svg";
 import ray from "./assets/ray.svg";
 import tool from "./assets/tool.svg";
 import present from "./assets/present.svg";
+
+import { Modal } from "./components/Modal";
 function App() {
   const [email, setEmail] = useState("");
   const [sentEmail, setSentEmail] = useState([]);
@@ -25,6 +27,7 @@ function App() {
 
       if (response.ok) {
         alert("E-mail cadastrado com sucesso!");
+        console.log('E-mail cadastrado com sucesso')
         setSentEmail([...sentEmail, email]);
         setEmail("");
       } else {
@@ -35,25 +38,25 @@ function App() {
     }
   };
 
-  // rota get para exibir os emails cadastrados
+  // Rota get para exibir os emais cadastrados
 
-  useEffect(() => {
-    async function fetchEmails() {
-      try {
-        const response = await fetch("http://localhost:3001/api/emails");
-        if (response.ok) {
-          const data = await response.json();
-          setEmailList(data); // Atualize o estado com os e-mails recebidos do backend
-        } else {
-          console.error("Erro ao buscar a lista de e-mails");
-        }
-      } catch (error) {
-        console.error("Erro ao buscar a lista de e-mails:", error);
-      }
-    }
+  // useEffect(() => {
+  //   async function fetchEmails() {
+  //     try {
+  //       const response = await fetch("http://localhost:3001/api/emails");
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         setEmailList(data); // Atualize o estado com os e-mails recebidos do backend
+  //       } else {
+  //         console.error("Erro ao buscar a lista de e-mails");
+  //       }
+  //     } catch (error) {
+  //       console.error("Erro ao buscar a lista de e-mails:", error);
+  //     }
+  //   }
 
-    fetchEmails();
-  }, []);
+  //   fetchEmails();
+  // }, []);
   return (
     <>
       <div className="wrapper-page">
@@ -76,6 +79,16 @@ function App() {
               <img src={arrow} />
             </button>
           </form>
+
+          {/* exibir a lista dentro da div abaixo */}
+          {/* <div>
+            <h2>Lista de E-mails:</h2>
+            <ul>
+              {emailList.map((emailObj) => (
+                <li key={emailObj._id}>{emailObj.email}</li>
+              ))}
+            </ul>
+          </div> */}
 
           <div className="cards-container">
             <div className="card">
