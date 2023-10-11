@@ -1,7 +1,10 @@
+<h3 align="center"> BoraCodar 40</h3>
+
+
 Projeto elaborado com base no desafio do boraCodar da Rocketseat.
 
 <p align="center">
-  <img alt="rocketpay" src="/src/assets/project.png" width="100%">
+  <img alt="newsletter" src=".github/project.png" width="100%">
 </p>
 
 No projeto foi realizada integração com o banco de dados MongoDB. Os emails cadastrados são armazenados na coleção "emails".
